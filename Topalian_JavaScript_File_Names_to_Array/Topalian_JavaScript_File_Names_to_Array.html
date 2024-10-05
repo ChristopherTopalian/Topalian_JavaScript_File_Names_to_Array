@@ -1,0 +1,201 @@
+<!-- Dedicated to God the Father -->
+<!-- All Rights Reserved Christopher Andrew Topalian Copyright 2000-2024 -->
+<!-- https://github.com/ChristopherTopalian -->
+<!-- https://github.com/ChristopherAndrewTopalian -->
+<!-- Topalian_JavaScript_File_Names_to_Array.html -->
+<!-- Version 001 - (2024-10-05) -->
+
+<html>
+<head>
+<title> Topalian JavaScript File Names to Array </title>
+
+<style>
+
+body
+{
+    background-color: rgb(30, 30, 30);
+    color: rgb(255, 255, 255);
+}
+
+textarea
+{
+    padding: 7px 10px;
+    background-color: rgb(30, 30, 30);
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+
+</style>
+
+<script>
+
+// shortcuts
+
+function ge(whichId)
+{
+    let result = document.getElementById(whichId);
+    return result;
+}
+
+function ce(whichType)
+{
+    let result = document.createElement(whichType);
+    return result;
+}
+
+function ba(whichElement)
+{
+    let result = document.body.append(whichElement);
+    return result;
+}
+
+//-//
+
+let fileNamesArray = [];
+let theBlobArray = [];
+
+function makeFileButton()
+{
+    let containerId = 'fileButtonContainer';
+    let buttonId = 'fileButton';
+
+    //-//
+
+    if (ge(containerId))
+    {
+        ge(containerId).remove();
+    }
+
+    //-//
+
+    let mainDiv = ce('div');
+    mainDiv.id = 'fileButtonContainer';
+    mainDiv.style.display = 'flex';
+    mainDiv.style.flexDirection = 'column';
+    mainDiv.style.gap = '8px';
+    ba(mainDiv);
+
+    //-//
+
+    let theButton = ce('input');
+    theButton.id = buttonId;
+    theButton.type = 'file';
+    theButton.multiple = true;
+    mainDiv.append(theButton);
+}
+
+function makeTextBox()
+{
+    let theTextarea = ce('textarea');
+    theTextarea.id = 'theTextarea';
+    theTextarea.style.width = 400 + 'px';
+    theTextarea.style.height = 170 + 'px';
+    if (ge('fileButtonContainer'))
+    {
+        ge('fileButtonContainer').append(theTextarea);
+    }
+}
+
+function makeTextBox2()
+{
+    let theTextarea = ce('textarea');
+    theTextarea.id = 'theTextarea2';
+    theTextarea.style.width = 400 + 'px';
+    theTextarea.style.height = 170 + 'px';
+    if (ge('fileButtonContainer'))
+    {
+        ge('fileButtonContainer').append(theTextarea);
+    }
+}
+
+function listenForFiles()
+{
+    if (ge('fileButton'))
+    {
+        ge('fileButton').addEventListener('change', function(theEvent)
+        {
+            let fileList = theEvent.target.files;
+            fileNamesArray = [];
+
+            if (fileList && fileList.length > 0)
+            {
+                console.log(fileList);
+
+                let fileNames = '';
+
+                // get file names
+                for (let i = 0; i < fileList.length; i++)
+                {
+                    fileNames += fileList[i].name + '\n';
+                    fileNamesArray.push(fileList[i]);
+                }
+
+                // get useable urls
+                for (let i = 0; i < fileList.length; i++)
+                {
+                    theBlobArray.push(URL.createObjectURL(fileList[i]));
+                }
+
+                // show data in textbox1
+                ge('theTextarea').value = fileNames;
+
+                // show data in textbox2
+                ge('theTextarea2').value = theBlobArray;
+
+                return fileNamesArray;
+            }
+        });
+    }
+}
+
+function makeTitleOfApp()
+{
+    let titleContainer = ce('div');
+    titleContainer.style.position = 'absolute';
+    titleContainer.style.right = '10px';titleContainer.style.top = '4px';
+    titleContainer.style.zIndex = 1;
+    ba(titleContainer);
+
+    //-//
+
+    let titleOfApp = ce('a');
+    titleOfApp.id = 'titleOfApp';
+    titleOfApp.href = 'https://github.com/ChristopherTopalian/Topalian_JavaScript_File_Names_to_Array' ;titleOfApp.target = '_blank';
+    titleOfApp.textContent = 'Topalian JavaScript File Names to Array';
+    titleOfApp.style.fontSize = '17px';
+    titleOfApp.style.color = 'gray';
+    titleOfApp.style.fontWeight = 'bold';
+    titleOfApp.style.textDecoration = 'none';
+    titleContainer.append(titleOfApp);
+}
+
+function makeInterface()
+{
+    makeFileButton();
+    makeTextBox();
+    makeTextBox2();
+    makeTitleOfApp();
+}
+
+function addBehaviors()
+{
+    listenForFiles();
+}
+
+function whenLoaded()
+{
+    makeInterface();
+    addBehaviors();
+}
+
+</script>
+
+</head>
+
+<body onload = 'whenLoaded();'>
+
+</body>
+
+</html>
+
